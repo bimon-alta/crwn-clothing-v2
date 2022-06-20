@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  font-family: 'Pacifico',sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+* {
+  // memastikan ukuran margin/padding element hanya yg diubah (tidak 1 paket komponen react)
+  box-sizing: border-box;
+}
