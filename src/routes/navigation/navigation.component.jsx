@@ -1,13 +1,37 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
 
 import { ReactComponent as CrwnLogo } from '../../assets/yinyang-lotus.svg';
+import { UserContext } from "../../contexts/user.context";
+
+import { signOutUser } from '../../utils/firebase/firebase.utils';
 
 import './navigation.styles.scss';
 
 
 
 const Navigation = () => {
+  const { currentUser } = useContext(UserContext);
+  // const { currentUser, setCurrentUser } = useContext(UserContext);
+  // kapanpun user Sign In/Out, state currentUser berubah
+  // setiap state berubah MAKA KOMPONEN APAPUN YG LISTENING THD STATE tsb
+  // akan ikut dirender ulang.
+  // console.log('current user : ', currentUser);
+
+
+
+  // const signOutHandler = async () => {
+  //   // const res = await signOutUser();
+  //   // // console.log('signout : ', res);
+  //   await signOutUser();
+  //   setCurrentUser(null);
+  // }
+
+  // blok kode di atas dinonaktifkan, karena sdh pake fitur Observer nya Firebase
+  // yg otomatis mendeteksi perubahan state user di user context
+
+
+  
   return (
     <Fragment>  {/** Komponen Fragment berguna jika kita tidak ingin wrapper suatu komponen dirender di browser  (Syarat mutlak react adlh setiap komponen wajib diwrap minimal dgn div kosong)*/}
       <div className="navigation">
@@ -18,9 +42,20 @@ const Navigation = () => {
           <Link className="nav-link" to="/shop">
             SHOP
           </Link>
-          <Link className="nav-link" to="/auth">
-            SIGN IN
-          </Link>
+          {
+            currentUser ? (
+              // <span className="nav-link" onClick={signOutHandler}>SIGN OUT</span>
+              // blok kode di atas dinonaktifkan, karena sdh pake fitur Observer nya Firebase
+              // yg otomatis mendeteksi perubahan state user di user context
+
+              <span className="nav-link" onClick={signOutUser}>SIGN OUT</span>
+            ) : (
+              <Link className="nav-link" to="/auth">
+                SIGN IN
+              </Link>
+            )
+          }
+          
         </div>
       </div>
       <Outlet /> {/** disinilah Komponen Home, Shop, dan spesifik komponen per page ditampilkan */}

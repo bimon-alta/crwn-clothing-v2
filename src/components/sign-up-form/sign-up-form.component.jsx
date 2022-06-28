@@ -1,9 +1,14 @@
 import { useState } from 'react';
+// import { useState, useContext } from 'react';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
 
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase/firebase.utils';
+
+// import { UserContext } from '../../contexts/user.context';
+// // blok kode di atas dinonaktifkan, karena sdh pake fitur Observer nya Firebase
+// // yg otomatis mendeteksi perubahan state user di user context
 
 import './sign-up-form.styles.scss';
 
@@ -21,6 +26,10 @@ const SignUpForm = () => {
 
   // console.log(formFields);
 
+  // const { setCurrentUser } = useContext(UserContext);
+  // // blok kode di atas dinonaktifkan, karena sdh pake fitur Observer nya Firebase
+  // // yg otomatis mendeteksi perubahan state user di user context
+
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   }
@@ -35,7 +44,14 @@ const SignUpForm = () => {
 
     try {
       const { user } = await createAuthUserWithEmailAndPassword(email, password);
-      console.log(user);
+      // console.log(user);
+
+      // // ketika seseorang signup , otomatis app juga 
+      // // melakukan sign-in user tsb utk pertama kali
+      // setCurrentUser(user);
+
+      // blok kode di atas dinonaktifkan, karena sdh pake fitur Observer nya Firebase
+      // yg otomatis mendeteksi perubahan state user di user context
 
       await createUserDocumentFromAuth(user, { displayName });
       resetFormFields();
@@ -90,7 +106,8 @@ const SignUpForm = () => {
             required: true,
             onChange: handleChange,
             name: "password",
-            value: password 
+            value: password,
+            autoComplete:"off"
           }}
         />
 
@@ -101,7 +118,8 @@ const SignUpForm = () => {
             required: true,
             onChange: handleChange,
             name: "confirmPassword",
-            value: confirmPassword 
+            value: confirmPassword,
+            autoComplete:"off"
           }}
         />
 

@@ -1,7 +1,10 @@
 import { useState } from 'react';
+// import { useState, useContext } from 'react';
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
+
+import { UserContext } from '../../contexts/user.context';
 
 import { 
   signInWithGooglePopup, 
@@ -21,23 +24,47 @@ const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  // console.log(formFields);
+
+  // // mengambil object function setCurrentUser
+  // // yg merupakan SETTER STATE utk state currentUser dari Context
+  // const { setCurrentUser } = useContext(UserContext);
+
+  // blok kode di atas dinonaktifkan, karena sdh pake fitur Observer nya Firebase
+  // yg otomatis mendeteksi perubahan state user di user context
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   }
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    const userDocRef = await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
+    
+    // const { user } = await signInWithGooglePopup();
+    // setCurrentUser(user);
+    // createUserDocumentFromAuth(user);
+    // // blok kode di atas dinonaktifkan, karena sdh pake fitur Observer nya Firebase
+    // // yg otomatis mendeteksi perubahan state user di user context
+    
+
+    // const userDocRef = await createUserDocumentFromAuth(user);
+
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(email, password);
-      console.log(response);
+      
+      const { user } = await signInAuthUserWithEmailAndPassword(email, password);
+      // console.log(response);
+
+      // // mengambil Object `user` dari proses Sign In lalu menyimpannya di Context
+      // // agar bisa diambil oleh semua komponen di lingkup Provider
+      // setCurrentUser(user);
+
+      // blok kode di atas dinonaktifkan, karena sdh pake fitur Observer nya Firebase
+      // yg otomatis mendeteksi perubahan state user di user context
+
       resetFormFields();
 
     }catch(error){
@@ -81,13 +108,14 @@ const SignInForm = () => {
         />
 
         <FormInput 
-          label="Password" 
+          label="Password"
           inputOptions = {{
             type: "password",
             required: true,
             onChange: handleChange,
             name: "password",
-            value: password 
+            value: password,
+            autoComplete:"on"
           }}
         />
 
