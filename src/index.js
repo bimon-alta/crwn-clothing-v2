@@ -6,6 +6,8 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import { UserProvider } from './contexts/user.context';
+import { ProductsProvider } from './contexts/products.context';
+import { CartProvider } from './contexts/cart.context';
 
 import './index.scss';
 
@@ -16,10 +18,15 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        {/** Komponen apapun di bawah Provider (di dalam Komponen App termasuk App itu sendiri)
-         *  memiliki akses thd CONTEXT value apapun yg disimpan di Provider 
-         * Komponen BrowserRouter tidak bisa mengakses context */}
-        <App /> 
+        {/* Products membutuhkan akses info user, maka urutannya UserProvider baru ProductsProvider */}
+        <ProductsProvider>
+          {/** Komponen apapun di bawah Provider (di dalam Komponen App termasuk App itu sendiri)
+           *  memiliki akses thd CONTEXT value apapun yg disimpan di Provider 
+           * Komponen BrowserRouter tidak bisa mengakses context */}
+          <CartProvider>
+            <App /> 
+          </CartProvider>
+        </ProductsProvider>
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>

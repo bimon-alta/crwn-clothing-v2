@@ -1,0 +1,6 @@
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);  // dibagi 4 kolom masing2 1fr (1bagian sama besar), jika 100, maka 1fr = 25
+  column-gap: 10px;
+  row-gap: 50px;
+}

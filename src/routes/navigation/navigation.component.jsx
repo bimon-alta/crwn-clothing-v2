@@ -1,8 +1,12 @@
 import { Fragment, useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
 
+import CartIcon from '../../components/cart-icon/cart-icon.component';
+import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
+
 import { ReactComponent as CrwnLogo } from '../../assets/yinyang-lotus.svg';
 import { UserContext } from "../../contexts/user.context";
+import { CartContext } from "../../contexts/cart.context";
 
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 
@@ -31,6 +35,7 @@ const Navigation = () => {
   // yg otomatis mendeteksi perubahan state user di user context
 
 
+  const { isCartOpen } = useContext(CartContext);
   
   return (
     <Fragment>  {/** Komponen Fragment berguna jika kita tidak ingin wrapper suatu komponen dirender di browser  (Syarat mutlak react adlh setiap komponen wajib diwrap minimal dgn div kosong)*/}
@@ -55,8 +60,11 @@ const Navigation = () => {
               </Link>
             )
           }
+
+          <CartIcon />
           
         </div>
+        { isCartOpen && <CartDropdown /> }
       </div>
       <Outlet /> {/** disinilah Komponen Home, Shop, dan spesifik komponen per page ditampilkan */}
     </Fragment>
